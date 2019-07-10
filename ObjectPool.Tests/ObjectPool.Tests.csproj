@@ -62,8 +62,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CleanPoolTests.cs" />
+    <Compile Include="FactoryPoolTests.cs" />
     <Compile Include="FixedPoolTests.cs" />
+    <Compile Include="PreparedPoolTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UselessTests.cs" />
   </ItemGroup>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
@@ -31,17 +32,6 @@ namespace ObjectPool.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(OperationCanceledException))]
-        public void FixedPool_TakeAll()
-        {
-            var pool = Pool;
-            for (int i = 0; i < Pack.Count; i++)
-                pool.Take(out _);
-
-            pool.Take(1, out _);
-        }
-
-        [TestMethod]
         public void FixedPool_UsePooling()
         {
             for (int i = 0; i < 10; i++)
@@ -59,10 +49,12 @@ namespace ObjectPool.Tests
         [TestMethod]
         public void FixedPool_CheckReferences()
         {
-            for (int i = 0; i < Pack.Count; i++)
+            for (int i = 0; i < Pack.Count * 2; i++)
             {
-                Pool.Take(out var item);
+                var poolItem = Pool.Take(out var item);
                 Assert.IsTrue(Pack.Contains(item));
+                if (i % 2 == 0)
+                    poolItem.Dispose();
             }
         }
 
@@ -101,6 +93,30 @@ namespace ObjectPool.Tests
             }
 
             pool.Take(1, out _);
+        }
+
+        [TestMethod]
+        public void FixedPool_TakeWithTimeout()
+        {
+            var pool = Pool;
+            for (int i = 0; i < Pack.Count; i++)
+                pool.Take(1, out _);
+
+            Assert.ThrowsException<OperationCanceledException>(() => pool.Take(1, out _));
+        }
+
+        [TestMethod]
+        public void FixedPool_TakeWithToken()
+        {
+            using (var cts = new CancellationTokenSource())
+            {
+                var pool = Pool;
+                for (int i = 0; i < Pack.Count; i++)
+                    pool.Take(cts.Token, out _);
+
+                cts.Cancel();
+                Assert.ThrowsException<OperationCanceledException>(() => pool.Take(cts.Token, out _));
+            }
         }
     }
 }
