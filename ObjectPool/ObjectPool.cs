@@ -62,6 +62,7 @@ namespace ObjectPool
             if (maxSize <= 0)
                 throw new ArgumentException("Pool size must be greater than 0");
 
+            _objectFactory = factory;
             _maxSize = maxSize;
 
             var i = 0;
