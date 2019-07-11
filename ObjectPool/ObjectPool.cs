@@ -25,7 +25,7 @@ namespace ObjectPool
                 _poolItemFactory = new Func<T, IPoolItem<T>>((t) => new SimplePoolItem<T>(t, this));
         }
 
-        public ObjectPool(Func<T> factory, int maxSize = 10)
+        public ObjectPool(Func<T> factory, int maxSize = Int32.MaxValue)
             : this()
         {
             if (factory == null)
