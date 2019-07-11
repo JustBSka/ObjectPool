@@ -2,18 +2,13 @@
 using Moq;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace ObjectPool.Tests
 {
     [TestClass]
     public class FactoryPoolTests
     {
-        //TODO IClearable tests
-
         [TestMethod]
         public void FactoryPool_MaxSize()
         {

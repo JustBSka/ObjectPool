@@ -72,6 +72,18 @@ namespace ObjectPool.Tests
         }
 
         [TestMethod]
+        public void FixedPool_IClearableChild()
+        {
+            var clearable = new Clearable();
+            var pool = new ObjectPool<Clearable>(new[] { clearable });
+            using (pool.Take(out var item))
+            {
+                Assert.AreEqual(clearable, item);
+            }
+            Assert.IsTrue(clearable.IsCleared);
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(OperationCanceledException))]
         public void FixedPool_StuckUp()
         {

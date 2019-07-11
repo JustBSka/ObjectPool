@@ -66,6 +66,7 @@
     <Compile Include="FixedPoolTests.cs" />
     <Compile Include="PreparedPoolTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Clearable.cs" />
     <Compile Include="UselessTests.cs" />
   </ItemGroup>
   <ItemGroup>
