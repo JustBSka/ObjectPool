@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ObjectPool
+﻿namespace ObjectPool
 {
     public interface IClearable
     {
