@@ -10,6 +10,13 @@ namespace ObjectPool.Tests
     public class FactoryPoolTests
     {
         [TestMethod]
+        public void FactoryPool_ThrowingFactory()
+        {
+            IObjectPool<object> pool = new ObjectPool<object>(() => throw new InvalidOperationException(), 1);
+            Assert.ThrowsException<InvalidOperationException>(() => pool.Take(out _));
+        }
+
+        [TestMethod]
         public void FactoryPool_MaxSize()
         {
             int count = 0;

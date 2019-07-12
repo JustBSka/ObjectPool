@@ -19,6 +19,18 @@ namespace ObjectPool.Tests
         }
 
         [TestMethod]
+        public void PreparedPool_ThrowingFactory()
+        {
+            const int count = 10;
+            var pack = Pack();
+            IObjectPool<object> pool = new ObjectPool<object>(pack, () => throw new InvalidOperationException(), count);
+            for (int i = 0; i < pack.Count; i++)
+                pool.Take(out _);
+
+            Assert.ThrowsException<InvalidOperationException>(() => pool.Take(out _));
+        }
+
+        [TestMethod]
         public void PreparedPool_Undersize()
         {
             const int count = 3;
