@@ -1,9 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace ObjectPool.Tests
 {
@@ -117,6 +119,25 @@ namespace ObjectPool.Tests
                 cts.Cancel();
                 Assert.ThrowsException<OperationCanceledException>(() => pool.Take(cts.Token, out _));
             }
+        }
+
+        [TestMethod]
+        public void PreparedPool_TakeParallelCheckDistinct()
+        {
+            const int count = 100;
+            var pack = new ConcurrentBag<object>();
+            Parallel.For(0, count / 10, (_) => pack.Add(new object()));
+            var pool = new ObjectPool<object>(pack, () => new object(), count);
+
+            var retrieved = new ConcurrentBag<object>();
+            var opts = new ParallelOptions { MaxDegreeOfParallelism = 5 };
+            Parallel.For(0, count, opts, (_) =>
+            {
+                pool.Take(out var item);
+                retrieved.Add(item);
+            });
+
+            Assert.AreEqual(count, retrieved.Distinct().Count());
         }
     }
 }
