@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace ObjectPool
 {
@@ -12,5 +13,13 @@ namespace ObjectPool
         IDisposable Take(int milliseconds, out T item);
 
         IDisposable Take(int milliseconds, CancellationToken token, out T item);
+
+        Task<IPoolItem<T>> TakeAsync();
+
+        Task<IPoolItem<T>> TakeAsync(CancellationToken token);
+
+        Task<IPoolItem<T>> TakeAsync(int milliseconds);
+
+        Task<IPoolItem<T>> TakeAsync(int milliseconds, CancellationToken token);
     }
 }

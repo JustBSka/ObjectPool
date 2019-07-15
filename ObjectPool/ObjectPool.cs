@@ -2,15 +2,16 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace ObjectPool
 {
     public sealed class ObjectPool<T>
         : IObjectPool<T>
     {
+        private readonly object _sync = new object();
         private readonly BlockingCollection<T> _pool = new BlockingCollection<T>();
         private readonly int _maxSize;
-        private readonly object _sync = new object();
         private readonly Func<T> _objectFactory;
 
         private readonly Func<T, IPoolItem<T>> _poolItemFactory;
@@ -154,6 +155,41 @@ namespace ObjectPool
             {
                 --_size;
             }
+        }
+
+        public Task<IPoolItem<T>> TakeAsync()
+        {
+            if (TryTakeOrCreate(out var poolItem))
+                return Task.FromResult(poolItem);
+
+            return Task.Run(() =>
+            {
+                var item = _pool.Take();
+                return _poolItemFactory(item);
+            });
+        }
+
+        public Task<IPoolItem<T>> TakeAsync(CancellationToken token)
+        {
+            return TakeAsync(0, token);
+        }
+
+        public Task<IPoolItem<T>> TakeAsync(int milliseconds)
+        {
+            return TakeAsync(milliseconds, CancellationToken.None);
+        }
+
+        public Task<IPoolItem<T>> TakeAsync(int milliseconds, CancellationToken token)
+        {
+            if (TryTakeOrCreate(out var poolItem))
+                return Task.FromResult(poolItem);
+
+            return Task.Run(() => {
+                if (_pool.TryTake(out var item, milliseconds, token))
+                    return _poolItemFactory(item);
+
+                throw new OperationCanceledException("Pool waiting timeout expired.");
+            });
         }
     }
 }
