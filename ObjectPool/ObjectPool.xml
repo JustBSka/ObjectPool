@@ -1,0 +1,193 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ObjectPool</name>
+    </assembly>
+    <members>
+        <member name="T:ObjectPool.ClearablePoolItem`1">
+            <summary>
+            Example of pool item which can be cleared before returning to the pool.
+            </summary>
+            <typeparam name="T">Pooling object type.</typeparam>
+        </member>
+        <member name="P:ObjectPool.ClearablePoolItem`1.Object">
+            <summary>
+            Object from the pool.
+            </summary>
+        </member>
+        <member name="T:ObjectPool.IClearable">
+            <summary>
+            Interface of the pooled object which can be cleared before returning to the pool.
+            </summary>
+        </member>
+        <member name="M:ObjectPool.IClearable.Clear">
+            <summary>
+            Clear the object before returning to the pool.
+            </summary>
+        </member>
+        <member name="T:ObjectPool.IObjectPool`1">
+            <summary>
+            Object pool interface.
+            </summary>
+            <typeparam name="T">Type of pooled objects.</typeparam>
+        </member>
+        <member name="M:ObjectPool.IObjectPool`1.Take(`0@)">
+            <summary>
+            Take an object from the pool.
+            </summary>
+            <param name="item">Object returning from the pool.</param>
+            <returns>An object that can be disposed to return the pooled object.</returns>
+        </member>
+        <member name="M:ObjectPool.IObjectPool`1.Take(System.Threading.CancellationToken,`0@)">
+            <summary>
+            Take an object from the pool.
+            </summary>
+            <param name="token">Cancellation token to cancel waiting.</param>
+            <param name="item">Object returning from the pool.</param>
+            <returns>An object that can be disposed to return the pooled object.</returns>
+        </member>
+        <member name="M:ObjectPool.IObjectPool`1.Take(System.Int32,`0@)">
+            <summary>
+            Take an object from the pool.
+            </summary>
+            <param name="milliseconds">Waiting time in milliseconds or -1 to wait indefinitely.</param>
+            <param name="item">Object returning from the pool.</param>
+            <returns>An object that can be disposed to return the pooled object.</returns>
+        </member>
+        <member name="M:ObjectPool.IObjectPool`1.Take(System.Int32,System.Threading.CancellationToken,`0@)">
+            <summary>
+            Take an object from the pool.
+            </summary>
+            <param name="milliseconds">Waiting time in milliseconds or -1 to wait indefinitely.</param>
+            <param name="token">Cancellation token to cancel waiting.</param>
+            <param name="item">Object returning from the pool.</param>
+            <returns>An object that can be disposed to return the pooled object.</returns>
+        </member>
+        <member name="M:ObjectPool.IObjectPool`1.TakeAsync">
+            <summary>
+            Take an object from the pool asynchronously.
+            </summary>
+            <returns>A container with pooled object which can be disposed to return the object in the pool.</returns>
+        </member>
+        <member name="M:ObjectPool.IObjectPool`1.TakeAsync(System.Threading.CancellationToken)">
+            <summary>
+            Take an object from the pool asynchronously.
+            </summary>
+            <param name="token">Cancellation token to cancel waiting.</param>
+            <returns>A container with pooled object which can be disposed to return the object in the pool.</returns>
+        </member>
+        <member name="M:ObjectPool.IObjectPool`1.TakeAsync(System.Int32)">
+            <summary>
+            Take an object from the pool asynchronously.
+            </summary>
+            <param name="milliseconds">Waiting time in milliseconds or -1 to wait indefinitely.</param>
+            <returns>A container with pooled object which can be disposed to return the object in the pool.</returns>
+        </member>
+        <member name="M:ObjectPool.IObjectPool`1.TakeAsync(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Take an object from the pool asynchronously.
+            </summary>
+            <param name="milliseconds">Waiting time in milliseconds or -1 to wait indefinitely.</param>
+            <param name="token">Cancellation token to cancel waiting.</param>
+            <returns>A container with pooled object which can be disposed to return the object in the pool.</returns>
+        </member>
+        <member name="T:ObjectPool.IPoolItem`1">
+            <summary>
+            Interface of the container of a pooled object.
+            </summary>
+            <typeparam name="T">Type of the pooled object.</typeparam>
+        </member>
+        <member name="P:ObjectPool.IPoolItem`1.Object">
+            <summary>
+            Pooled object.
+            </summary>
+        </member>
+        <member name="T:ObjectPool.ObjectPool`1">
+            <summary>
+            Default object pool implementation.
+            </summary>
+            <typeparam name="T">Type of pooled objects.</typeparam>
+        </member>
+        <member name="M:ObjectPool.ObjectPool`1.#ctor(System.Func{`0},System.Int32)">
+            <summary>
+            Initializes a new pool instance with an item factory.
+            </summary>
+            <param name="factory">Pooled objects factory.</param>
+            <param name="maxSize">Maximum pool size.</param>
+        </member>
+        <member name="M:ObjectPool.ObjectPool`1.#ctor(System.Collections.Generic.IReadOnlyCollection{`0})">
+            <summary>
+            Initializes a new pool instance with prepared object collection.
+            </summary>
+            <param name="pool">Pooled object collection.</param>
+        </member>
+        <member name="M:ObjectPool.ObjectPool`1.#ctor(System.Collections.Generic.IReadOnlyCollection{`0},System.Func{`0},System.Int32)">
+            <summary>
+            Initializes warmed up pool instance with an item factory.
+            </summary>
+            <param name="initial">Collection of items to be inserted into the pool.</param>
+            <param name="factory">Pooled objects factory.</param>
+            <param name="maxSize">Maximum pool size.</param>
+        </member>
+        <member name="M:ObjectPool.ObjectPool`1.Take(`0@)">
+            <summary>
+            Take an object from the pool.
+            </summary>
+            <param name="item">Object returning from the pool.</param>
+            <returns>An object that can be disposed to return the pooled object.</returns>
+        </member>
+        <member name="M:ObjectPool.ObjectPool`1.Take(System.Threading.CancellationToken,`0@)">
+            <summary>
+            Take an object from the pool.
+            </summary>
+            <param name="token">Cancellation token to cancel waiting.</param>
+            <param name="item">Object returning from the pool.</param>
+            <returns>An object that can be disposed to return the pooled object.</returns>
+        </member>
+        <member name="M:ObjectPool.ObjectPool`1.Take(System.Int32,`0@)">
+            <summary>
+            Take an object from the pool.
+            </summary>
+            <param name="milliseconds">Waiting time in milliseconds or -1 to wait indefinitely.</param>
+            <param name="item">Object returning from the pool.</param>
+            <returns>An object that can be disposed to return the pooled object.</returns>
+        </member>
+        <member name="M:ObjectPool.ObjectPool`1.Take(System.Int32,System.Threading.CancellationToken,`0@)">
+            <summary>
+            Take an object from the pool.
+            </summary>
+            <param name="milliseconds">Waiting time in milliseconds or -1 to wait indefinitely.</param>
+            <param name="token">Cancellation token to cancel waiting.</param>
+            <param name="item">Object returning from the pool.</param>
+            <returns>An object that can be disposed to return the pooled object.</returns>
+        </member>
+        <member name="M:ObjectPool.ObjectPool`1.TakeAsync">
+            <summary>
+            Take an object from the pool asynchronously.
+            </summary>
+            <returns>A container with pooled object which can be disposed to return the object in the pool.</returns>
+        </member>
+        <member name="M:ObjectPool.ObjectPool`1.TakeAsync(System.Threading.CancellationToken)">
+            <summary>
+            Take an object from the pool asynchronously.
+            </summary>
+            <param name="token">Cancellation token to cancel waiting.</param>
+            <returns>A container with pooled object which can be disposed to return the object in the pool.</returns>
+        </member>
+        <member name="M:ObjectPool.ObjectPool`1.TakeAsync(System.Int32)">
+            <summary>
+            Take an object from the pool asynchronously.
+            </summary>
+            <param name="milliseconds">Waiting time in milliseconds or -1 to wait indefinitely.</param>
+            <returns>A container with pooled object which can be disposed to return the object in the pool.</returns>
+        </member>
+        <member name="M:ObjectPool.ObjectPool`1.TakeAsync(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Take an object from the pool asynchronously.
+            </summary>
+            <param name="milliseconds">Waiting time in milliseconds or -1 to wait indefinitely.</param>
+            <param name="token">Cancellation token to cancel waiting.</param>
+            <returns>A container with pooled object which can be disposed to return the object in the pool.</returns>
+        </member>
+    </members>
+</doc>
